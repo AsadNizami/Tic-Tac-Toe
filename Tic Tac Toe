@@ -1,0 +1,112 @@
+m = []
+for i in range(9):
+    m.append(" ")
+field = [[m[0], m[1], m[2]], [m[3], m[4], m[5]], [m[6], m[7], m[8]]]
+
+def size(board):
+    count = 0
+    for i in range(3):
+        for j in range(3):
+            if field[i][j] in ['X', 'O']:
+                count += 1
+    if count == 9:
+        return True
+    else:
+        return False
+def row_win(board, player): 
+    for x in range(len(board)): 
+        win = True
+          
+        for y in range(len(board)): 
+            if board[x][y] != player: 
+                win = False
+                continue
+                  
+        if win == True: 
+            return(win) 
+    return(win) 
+
+def col_win(board, player): 
+    for x in range(len(board)): 
+        win = True
+          
+        for y in range(len(board)): 
+            if board[y][x] != player: 
+                win = False
+                continue
+                  
+        if win == True: 
+            return(win) 
+    return(win) 
+def diag1_win(board, player): 
+    win = True
+    y = 0
+    for x in range(len(board)): 
+        if board[x][x] != player: 
+            win = False
+    return win
+def diag2_win(board, player):
+    win = True
+    if win: 
+        for x in range(len(board)): 
+            y = len(board) - 1 - x 
+            if board[x][y] != player: 
+                win = False
+    return win 
+    
+def show_field():
+    print("---------")
+    print("|", field[0][0], field[0][1], field[0][2], "|")
+    print("|", field[1][0], field[1][1], field[1][2], "|")
+    print("|", field[2][0], field[2][1], field[2][2], "|")
+    print("---------")
+    
+
+
+show_field()
+x_win = 0
+o_win = 0
+while True:
+    x_win = row_win(field, 'X') or col_win(field, 'X') or diag1_win(field, 'X') or diag2_win(field, 'X')
+    o_win = row_win(field, 'O') or col_win(field, 'O') or diag1_win(field, 'O') or diag2_win(field, 'O')
+    # print("X="+str(x_win))
+    # print("O="+str(o_win))
+    if x_win:
+        print("X wins")
+        break
+    if o_win:
+        print("O wins")
+        break
+    value = input("Enter the coordinates: ").split()
+    
+    if [el for el in value if not el.isnumeric()]:
+        print("You should enter numbers!")
+        i -= 1
+    elif [el for el in value if el not in ("1", "2", "3")]:
+        print("Coordinates should be from 1 to 3!")
+        i -= 1
+    elif field[abs(int(value[1]) - 3)][int(value[0]) - 1] != " ":
+        print("This cell is occupied! Choose another one!")
+        i -= 1
+    elif i % 2 == 0: 
+        field[abs(int(value[1]) - 3)][int(value[0]) - 1] = "X"
+    elif i % 2 != 0:
+        field[abs(int(value[1]) - 3)][int(value[0]) - 1] = "O"
+    i += 1
+    show_field()
+    x_win = row_win(field, 'X') or col_win(field, 'X') or diag1_win(field, 'X') or diag2_win(field, 'X')
+    o_win = row_win(field, 'O') or col_win(field, 'O') or diag1_win(field, 'O') or diag2_win(field, 'O')
+    # print("X="+str(x_win))
+    # print("O="+str(o_win))
+    if x_win:
+        print("X wins")
+        break
+    if o_win:
+        print("O wins")
+        break
+    if size(field):
+        print("Draw")
+        break
+    
+    
+    
